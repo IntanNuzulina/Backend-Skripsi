@@ -58,11 +58,11 @@ Route::delete('/buku/delete/{id}', \App\Http\Controllers\Api\Buku\Delete::class)
 Route::middleware(['auth:sanctum'])->group(function () {
 });
 
-Route::post('/flash-sale/create', \App\Http\Controllers\Api\FlashSale\Create::class)->middleware('auth:sanctum');
-Route::get('/flash-sale/view', \App\Http\Controllers\Api\FlashSale\View::class);
-Route::get('/flash-sale/view/{id}', [\App\Http\Controllers\Api\FlashSale\View::class, 'show'])->name('flashSale.show');
-Route::put('/flash-sale/update', \App\Http\Controllers\Api\FlashSale\Update::class);
-Route::delete('/flash-sale/delete/{id}', \App\Http\Controllers\Api\FlashSale\Delete::class)->middleware('auth:sanctum');
+Route::post('/flash-sale/create', \App\Http\Controllers\Api\Flashsale\Create::class)->middleware('auth:sanctum');
+Route::get('/flash-sale/view', \App\Http\Controllers\Api\Flashsale\View::class);
+Route::get('/flash-sale/view/{id}', [\App\Http\Controllers\Api\Flashsale\View::class, 'show'])->name('flashSale.show');
+Route::put('/flash-sale/update', \App\Http\Controllers\Api\Flashsale\Update::class);
+Route::delete('/flash-sale/delete/{id}', \App\Http\Controllers\Api\Flashsale\Delete::class)->middleware('auth:sanctum');
 
 Route::group(['auth:sanctum'], function () {
     Route::get('/keranjang/view', \App\Http\Controllers\Api\Keranjang\View::class)->middleware('auth:sanctum');
