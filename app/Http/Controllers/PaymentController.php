@@ -19,35 +19,45 @@ class PaymentController extends Controller
 
     public function createCharge(Request $request)
     {
-        $params = [
-            'transaction_details' => [
-                'order_id' => rand(),
-                'gross_amount' => $request->amount,
-            ],
-            'customer_details' => [
-                'first_name' => $request->first_name,
-                'email' => $request->email,
-                'phone' => $request->phone,
-            ],
-        ];
-        $snapToken = Snap::getSnapToken($params);
-
-        $order = Order::create([
-            'order_id' => $params['transaction_details']['order_id'],
-            'user_id' => $request->user_id,
-            'buku_id' => $request->buku_id,
-            'qty' => $request->qty,
-            'harga' => $request->amount,
-            'token' => $snapToken,
-            'status' => 'unpaid',
-            'alamat_penerima' => $request->alamat_penerima,
-            'redirect_url' => 'https://example.com/callback'
-        ]);
-
+        if ($request->has('token')) {
+            $snapToken = $request->token;
+            $order = Order::where('token', $snapToken)->first();
+            $order->status = 'paid';
+            $order->save();
+        } else {
+            $params = [
+                'transaction_details' => [
+                    'order_id' => rand(),
+                    'gross_amount' => $request->amount,
+                ],
+                'customer_details' => [
+                    'first_name' => $request->first_name,
+                    'email' => $request->email,
+                    'phone' => $request->phone,
+                ],
+                "callbacks" => [
+                    "finish"=>"http://intannuzulina.online/order"
+                ]
+            ];
+            $snapToken = Snap::getSnapToken($params);
+    
+            $order = Order::create([
+                'order_id' => $params['transaction_details']['order_id'],
+                'user_id' => $request->user_id,
+                'buku_id' => $request->buku_id,
+                'qty' => $request->qty,
+                'harga' => $request->amount,
+                'token' => $snapToken,
+                'status' => 'unpaid',
+                'alamat_penerima' => $request->alamat_penerima,
+                'redirect_url' => 'http://intannuzulina.online/order'
+            ]);
+        }
         return response()->json([
             'token' => $snapToken,
             'order' => $order
         ]);
+        
     }
 
     public function callback(Request $request) {
