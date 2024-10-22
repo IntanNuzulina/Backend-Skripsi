@@ -29,7 +29,7 @@ class BukuResource extends JsonResource
             'isbn' => $this->isbn,
             'tahun' => $this->tahun,
             'stok' => $this->stok,
-            'image' => 'http://localhost:8000/storage/'.$this->gambar,
+            'image' => $this->gambar,
             'flashsale' => new FlashsaleResource($this->flashSale),
         ];
     }
