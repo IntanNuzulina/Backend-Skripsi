@@ -55,7 +55,7 @@ class PaymentController extends Controller
         $hashed = hash('sha256', $request->order_id . $request->status_code . $request->gross_amount . $serverKey);
         
         if ($request->signature_key) {
-            if($request->transaction_status == 'capture') {
+            if($request->transaction_status == 'settlement') {
                 $order = Order::where('order_id', $request->order_id)->first();
                 $order->status = 'paid';
                 $order->save();
