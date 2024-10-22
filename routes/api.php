@@ -76,8 +76,6 @@ Route::group(['auth:sanctum'], function () {
     Route::post('/order/create', \App\Http\Controllers\Api\Order\Create::class)->middleware('auth:sanctum');
 });
 
-Route::post('/payment/callback', \App\Http\Controllers\Api\Order\Callback::class);
-
-
 // midtrans
 Route::post('/payment/charge', [PaymentController::class, 'createCharge']);
+Route::post('/payment/callback', [PaymentController::class, 'callback']);
