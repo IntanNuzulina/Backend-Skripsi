@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
+use App\Models\Buku;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use Midtrans\Config;
@@ -25,10 +26,11 @@ class PaymentController extends Controller
             $order->status = 'paid';
             $order->save();
         } else {
+            $book = Buku::find($request->buku_id);
             $params = [
                 'transaction_details' => [
                     'order_id' => rand(),
-                    'gross_amount' => $request->amount,
+                    'gross_amount' => $book->flashSale->diskon ? $request->amount * ($book->flashSale->diskon / 100) : $request->amount,
                 ],
                 'customer_details' => [
                     'first_name' => $request->first_name,
@@ -40,13 +42,12 @@ class PaymentController extends Controller
                 ]
             ];
             $snapToken = Snap::getSnapToken($params);
-    
             $order = Order::create([
                 'order_id' => $params['transaction_details']['order_id'],
                 'user_id' => $request->user_id,
                 'buku_id' => $request->buku_id,
                 'qty' => $request->qty,
-                'harga' => $request->amount,
+                'harga' => $params['transaction_details']['gross_amount'],
                 'token' => $snapToken,
                 'status' => 'unpaid',
                 'alamat_penerima' => $request->alamat_penerima,
@@ -67,6 +68,9 @@ class PaymentController extends Controller
         if ($request->signature_key) {
             if($request->transaction_status == 'settlement') {
                 $order = Order::where('order_id', $request->order_id)->first();
+                $book = Buku::find($order->buku_id);
+                $book->stok -= $order->qty;
+                $book->save();
                 $order->status = 'paid';
                 $order->save();
             }

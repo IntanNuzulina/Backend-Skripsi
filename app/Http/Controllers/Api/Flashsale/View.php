@@ -28,7 +28,26 @@ class View extends Controller
         return response()->json([
             'status' => 'success',
             'message' => 'Semua Flash Sale sudah ditampilkan',
-            'data' => $view
+            'data' => $view,
+        ]);
+    }
+
+    public function flashsale()
+    {
+        $now = date('Y-m-d H:i:s');
+        $view = FlashSale::where('tanggal_akhir', '!=', null)->get();
+        if ($view->count() == 0) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'No data found',
+            ], 404);
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Semua Flash Sale sudah ditampilkan',
+            'data' => $view,
+            'now' => $now
         ]);
     }
     

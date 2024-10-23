@@ -53,6 +53,18 @@ class View extends Controller
         //     ]);
         // }
         $book = $request->has('latest') ? Buku::latest()->get() : Buku::all();
+
+        if ($request->has('flashsale')) {
+            $now = date('Y-m-d H:i:s');
+            $book = $book->filter(function ($value) use ($now) {
+                if ($value->id_flash_sales != null) {
+                    $flashSale = FlashSale::where('id', $value->id_flash_sales)->first();
+                    if ($flashSale && $flashSale->tanggal_akhir > $now) {
+                        return $value;
+                    }
+                }
+            });
+        }
         if (!$book) {
             return response()->json([
                 'error' => 'data not found'
@@ -65,9 +77,7 @@ class View extends Controller
     {
         try {
             $book = Buku::find($id);
-            return response()->json([
-                'data' => $book
-            ]);
+            return new BukuResource($book);
         } catch (Exception $e) {
             return response()->json([
                 'error' => $e->getMessage()

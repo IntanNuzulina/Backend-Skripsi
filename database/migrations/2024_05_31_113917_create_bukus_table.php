@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('bukus', function (Blueprint $table) {
             $table->id();
             $table->foreignId('id_kategori')->constrained('kategoris')->onDelete('cascade');
-            $table->unsignedBigInteger('id_flash_sales')->default(NULL);
+            $table->unsignedBigInteger('id_flash_sales')->nullable()->default(NULL);
             $table->string('penerbit');
             $table->string('judul');
             $table->string('penulis');
@@ -26,7 +26,7 @@ return new class extends Migration
             $table->string('thn_terbit');
             $table->string('bahasa');
             $table->string('isbn');
-            $table->foreign('id_flash_sales')->references('id')->on('flash_sales')->onDelete('cascade');
+            $table->foreign('id_flash_sales')->references('id')->on('flash_sales')->onDelete('set null');
             $table->timestamps();
         });
     }

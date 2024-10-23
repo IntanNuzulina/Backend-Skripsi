@@ -31,7 +31,7 @@ class Update extends Controller
 
         $book = Buku::find($id);
 
-        if ($request->has('gambar')) {
+        if ($request->gambar != null) {
             $path = $request->file('gambar')->store('images', 'public');
             $nama_gambar = $path;
             
