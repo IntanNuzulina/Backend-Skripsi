@@ -18,7 +18,10 @@ class Create extends Controller
             'tanggal_akhir' => 'required',
         ]);
         
-        FlashSale::where('tanggal_akhir', '<=', $request->tanggal_akhir)->where('tanggal_akhir', '!=', null)->first()->delete();
+        $FlashSale = FlashSale::where('tanggal_akhir', '<=', $request->tanggal_akhir)->where('tanggal_akhir', '!=', null)->first();
+        if ($FlashSale) {
+            $FlashSale->delete();
+        }
 
         $create = FlashSale::create($request->all());
 
