@@ -16,42 +16,6 @@ class View extends Controller
      */
     public function __invoke(Request $request)
     {
-        // $view = Buku::get();
-        // $getFlashSale = [];
-
-        // foreach ($view as $key => $value) {
-        //     if ($value['id_flash_sales'] != null) {
-        //         $id_flash_sales = $value['id_flash_sales'];
-        //         $flashSale = FlashSale::where('id', $id_flash_sales)->first();
-        //         if ($flashSale) {
-        //             $value['diskon'] = $flashSale;
-        //             $value['harga_diskon'] = $value['harga'] * (1 - ($flashSale['diskon'] / 100));
-        //             unset($flashSale['updated_at']);
-        //             unset($flashSale['created_at']);
-        //         }
-        //     }
-        //     unset($value['created_at']);
-        //     unset($value['updated_at']);
-        //     $value['images'] = env('APP_URL') . $value->gambar;
-        //     unset($value['gambar']);
-        //     $getFlashSale[] = $value;
-        // }
-
-        // if (count($getFlashSale) > 0) {
-        //     return response()->json([
-        //         'status' => 'success',
-        //         'message' => 'berhasil mendapatkan buku',
-        //         'data' => $getFlashSale,
-        //     ]);
-        // } else {
-        //     return response()->json([
-        //         'status' => 'error',
-        //         'message' => 'tidak ada buku tersedia',
-        //         'row' => 0,
-        //         'data' => [],
-        //         'diskon' => []
-        //     ]);
-        // }
         $book = $request->has('latest') ? Buku::latest()->get() : Buku::all();
 
         if ($request->has('flashsale')) {

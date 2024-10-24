@@ -30,7 +30,7 @@ class PaymentController extends Controller
             $params = [
                 'transaction_details' => [
                     'order_id' => rand(),
-                    'gross_amount' => $book->flashSale->diskon ? $request->amount * ($book->flashSale->diskon / 100) : $request->amount,
+                    'gross_amount' => $book->flashSale->diskon ? $request->amount - $request->amount * ($book->flashSale->diskon / 100) : $request->amount,
                 ],
                 'customer_details' => [
                     'first_name' => $request->first_name,
