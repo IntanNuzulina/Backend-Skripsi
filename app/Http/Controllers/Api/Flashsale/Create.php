@@ -17,6 +17,8 @@ class Create extends Controller
             'diskon' => 'numeric|between:0,100',
             'tanggal_akhir' => 'required',
         ]);
+        
+        FlashSale::where('tanggal_akhir', '<=', $request->tanggal_akhir)->where('tanggal_akhir', '!=', null)->first()->delete();
 
         $create = FlashSale::create($request->all());
 
