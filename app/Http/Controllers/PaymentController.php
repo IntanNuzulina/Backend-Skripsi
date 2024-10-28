@@ -29,7 +29,7 @@ class PaymentController extends Controller
             $book = Buku::find($request->buku_id);
             $params = [
                 'transaction_details' => [
-                    'order_id' => rand(),
+                    'order_id' => rand(), 
                     'gross_amount' => $book->flashSale->diskon != null && $book->flashSale->tanggal_akhir > date('Y-m-d H:i:s') ? $request->amount - $request->amount * ($book->flashSale->diskon / 100) : $request->amount,
                 ],
                 'customer_details' => [
