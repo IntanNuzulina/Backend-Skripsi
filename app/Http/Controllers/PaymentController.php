@@ -57,7 +57,9 @@ class PaymentController extends Controller
         return response()->json([
             'token' => $snapToken,
             'order' => $order,
-            'now' => $book?->flashSale?->tanggal_akhir > date('Y-m-d H:i:s')
+            'bool' => $book?->flashSale?->tanggal_akhir > date('Y-m-d H:i:s'),
+            'tanggal_flashsale' => $book?->flashSale?->tanggal_akhir,
+            'now' => date('Y-m-d H:i:s')
         ]);
         
     }
