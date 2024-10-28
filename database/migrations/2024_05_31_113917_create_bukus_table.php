@@ -26,7 +26,7 @@ return new class extends Migration
             $table->string('thn_terbit');
             $table->string('bahasa');
             $table->string('isbn');
-            $table->foreign('id_flash_sales')->references('id')->on('flash_sales')->onDelete('set null');
+            $table->foreign('id_flash_sales')->references('id')->on('flash_sales')->nullOnDelete();
             $table->timestamps();
         });
     }
