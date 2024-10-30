@@ -23,7 +23,7 @@ class Create extends Controller
             return response()->json([
                 'status' => 'error',
                 'message' => 'Kategori sudah ada.',
-            ], 500); // 409 Conflict
+            ], 500); 
         }
         $kategori = Kategori::create([
             'kategori' => $request->kategori
