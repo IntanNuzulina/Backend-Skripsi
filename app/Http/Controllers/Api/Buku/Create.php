@@ -29,6 +29,15 @@ class Create extends Controller
             'isbn' => 'required|string',
         ]);
 
+        $exist = Buku::where('judul', $request->input('judul'))
+                     ->orWhere('isbn', $request->input('isbn'))
+                     ->first();
+        if ($exist) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'buku sudah ada',
+            ], 500);
+        }
 
         if ($request->file('gambar')) {
             $path = $request->file('gambar')->store('images', 'public');

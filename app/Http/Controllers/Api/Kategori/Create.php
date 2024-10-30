@@ -16,7 +16,15 @@ class Create extends Controller
         $request->validate([
            'kategori' => 'required|unique:kategoris',
         ]);
+        
+        $existingCategory = Kategori::where('kategori', $request->input('kategori'))->first();
 
+        if ($existingCategory) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Kategori sudah ada.',
+            ], 500); // 409 Conflict
+        }
         $kategori = Kategori::create([
             'kategori' => $request->kategori
         ]);
