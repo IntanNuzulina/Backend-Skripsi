@@ -36,7 +36,7 @@ class Create extends Controller
             return response()->json([
                 'status' => 'error',
                 'message' => 'buku sudah ada',
-            ], 500);
+            ], 409);
         }
 
         if ($request->file('gambar')) {

@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api\Keranjang;
 use App\Http\Controllers\Controller;
 use App\Models\Buku;
 use App\Models\Keranjang;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class Delete extends Controller
