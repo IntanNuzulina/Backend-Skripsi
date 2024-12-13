@@ -22,8 +22,10 @@ class OrderResource extends JsonResource
             'status' => $this->status,
             'harga' => $this->harga,
             'qty' => $this->qty,
+            'total' => $this->qty * $this->harga,
             'alamat_penerima' => $this->alamat_penerima,
-            'token' => $this->token
+            'token' => $this->token,
+            'created_at' => $this->created_at
         ];
     }
 }
